@@ -110,10 +110,6 @@ function analyzeSalesData(data, options) {
     })
     if (errorData) return;
 
-
-
-    const temp = Object.groupBy(data.purchase_records, ({ seller_id }) => seller_id);
-
     const sellerStats = data.sellers.map((seller) => { // Заполнение начальными данными
         return  {
             id: seller.id,
