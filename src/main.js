@@ -67,6 +67,7 @@ function analyzeSalesData(data, options) {
     // @TODO: Назначение премий на основе ранжирования
     // @TODO: Подготовка итоговой коллекции с нужными полями
     // проверка данных массива продавцов
+    if (data.sellers.length === 0) throw 10;
     data.sellers.forEach((item, index) => {
         if (!item.id || !item.first_name || !item.last_name) {
             console.error(`in array data.sellers[${index}] - required fields are missing`);
@@ -78,6 +79,7 @@ function analyzeSalesData(data, options) {
         }
     })
     // проверка данных массива продуктов
+    if (data.sellers.length === 0) throw 20;
     data.products.forEach((item, index) => {
         if (!item.sku || !item.purchase_price || !item.sale_price) {
             console.error(`in array data.products[${index}] - required fields are missing`);
@@ -88,6 +90,7 @@ function analyzeSalesData(data, options) {
         }        
     })
     // проверка данных массива продаж
+    if (data.sellers.length === 0) throw 30;
     data.purchase_records.forEach((item, index) => {
         if (!item.seller_id || !item.items || !item.total_amount) {
             console.error(`in array data.purchase_records[${index}] - required fields are missing`);
@@ -96,6 +99,7 @@ function analyzeSalesData(data, options) {
             console.error(`in array data.purchase_records[${index}] - incorrect data`);
             throw 32;
         } else item.items.forEach((item, subIndex) => { // проверка данных подмассива проданных товаров
+            if (data.sellers.length === 0) throw 40;
             if (!item.sku || !item.discount || !item.quantity || !item.sale_price) {
                 console.error(`in array data.purchase_records[${index}, ${subIndex}] - required fields are missing`);
                 throw 41;
