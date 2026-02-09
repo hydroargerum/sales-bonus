@@ -78,7 +78,7 @@ function analyzeSalesData(data, options) {
             errorData = true;
         }
     })
-    if (errorData) return;
+    if (errorData) throw 1;
     // проверка данных массива продуктов
     data.products.forEach((item, index) => {
         if (!item.sku || !item.purchase_price || !item.sale_price) {
@@ -89,7 +89,7 @@ function analyzeSalesData(data, options) {
             errorData = true;
         }        
     })
-    if (errorData) return;
+    if (errorData) throw 2;
     // проверка данных массива продаж
     data.purchase_records.forEach((item, index) => {
         if (!item.seller_id || !item.items || !item.total_amount) {
@@ -108,7 +108,7 @@ function analyzeSalesData(data, options) {
             }
         })
     })
-    if (errorData) return;
+    if (errorData) throw 3;
 
     const sellerStats = data.sellers.map((seller) => { // Заполнение начальными данными
         return  {
