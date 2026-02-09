@@ -66,49 +66,45 @@ function analyzeSalesData(data, options) {
     // @TODO: Сортировка продавцов по прибыли
     // @TODO: Назначение премий на основе ранжирования
     // @TODO: Подготовка итоговой коллекции с нужными полями
-    let errorData = false;
     // проверка данных массива продавцов
     data.sellers.forEach((item, index) => {
         if (!item.id || !item.first_name || !item.last_name) {
             console.error(`in array data.sellers[${index}] - required fields are missing`);
-            errorData = true;
+            throw 11;
         } else if (typeof(item.id) !== "string" || typeof(item.first_name) !== "string" || typeof(item.last_name) !== "string") {
             console.error(`in array data.sellers[${index}] - incorrect data`);
             console.log(item.id, item.first_name, item.last_name)
-            errorData = true;
+            throw 12;
         }
     })
-    if (errorData) throw 1;
     // проверка данных массива продуктов
     data.products.forEach((item, index) => {
         if (!item.sku || !item.purchase_price || !item.sale_price) {
             console.error(`in array data.products[${index}] - required fields are missing`);
-            errorData = true;
+            throw 21;
         } else if (typeof(item.sku) !== "string" || typeof(item.purchase_price) !== "number" || typeof(item.sale_price) !== "number") {
             console.error(`in array data.products[${index}] - incorrect data`);
-            errorData = true;
+            throw 22;
         }        
     })
-    if (errorData) throw 2;
     // проверка данных массива продаж
     data.purchase_records.forEach((item, index) => {
         if (!item.seller_id || !item.items || !item.total_amount) {
             console.error(`in array data.purchase_records[${index}] - required fields are missing`);
-            errorData = true;
+            throw 31;
         } else if (typeof(item.seller_id) !== "string" || typeof(item.items) !== "object" || typeof(item.total_amount) !== "number") {
             console.error(`in array data.purchase_records[${index}] - incorrect data`);
-            errorData = true;
+            throw 32;
         } else item.items.forEach((item, subIndex) => { // проверка данных подмассива проданных товаров
             if (!item.sku || !item.discount || !item.quantity || !item.sale_price) {
                 console.error(`in array data.purchase_records[${index}, ${subIndex}] - required fields are missing`);
-                errorData = true;
+                throw 41;
             } else if (typeof(item.sku) !== "string" || typeof(item.discount) !== "number" || typeof(item.quantity) !== "number" || typeof(item.sale_price) !== "number") {
                 console.error(`in array data.purchase_records[${index}, ${subIndex}] - incorrect data`);
-                errorData = true;
+                throw 42;
             }
         })
     })
-    if (errorData) throw 3;
 
     const sellerStats = data.sellers.map((seller) => { // Заполнение начальными данными
         return  {
